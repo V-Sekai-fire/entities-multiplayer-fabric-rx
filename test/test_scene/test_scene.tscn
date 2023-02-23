@@ -1,8 +1,8 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=11 format=3 uid="uid://sw5yp8o0wvjj"]
 
-[ext_resource type="PackedScene" path="res://vsk_default/scenes/test/test_scene/data/world_geometry.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://vsk_default/test/test_scene/data/world_geometry.tscn" id="1"]
 [ext_resource type="Script" path="res://addons/network_manager/network_spawn.gd" id="3"]
-[ext_resource type="PackedScene" uid="uid://bwcl6tiiptf7k" path="res://vsk_default/scenes/prefabs/test_ball_animation.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://dxea25i6pditl" path="res://vsk_default/scenes/prefabs/test_ball_animation.tscn" id="5"]
 [ext_resource type="Script" path="res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd" id="5_gsr6m"]
 [ext_resource type="Script" path="res://addons/vsk_map/vsk_map_definition.gd" id="6"]
 
@@ -24,12 +24,7 @@ roughness = 0.0
 
 [node name="TestScene" type="Node3D"]
 script = ExtResource("6")
-map_resources = []
-entity_instance_list = []
-entity_instance_properties_list = []
-vskeditor_preview_type = 0
 vskeditor_preview_camera_path = NodePath("PreviewCamera3D")
-vskeditor_pipeline_paths = []
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("2")
@@ -66,13 +61,12 @@ script = ExtResource("3")
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.996195, 0, 0.0871556, 0.0616283, 0.707107, 0.704416, -0.0616283, 0.707107, -0.704416, 0, 0, 0)
 shadow_enabled = true
-shadow_normal_bias = 2.0
 directional_shadow_blend_splits = true
 
 [node name="ReflectionProbe" type="ReflectionProbe" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 max_distance = 50.0
-extents = Vector3(12, 3.5, 12)
+size = Vector3(24, 7, 24)
 box_projection = true
 enable_shadows = true
 

@@ -1,10 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://c7a8ehfgkp1ij"]
+[gd_scene load_steps=14 format=3 uid="uid://c7a8ehfgkp1ij"]
 
 [ext_resource type="PackedScene" uid="uid://x8laotjekrkp" path="res://vsk_default/scenes/prefabs/beachball.tscn" id="2"]
 [ext_resource type="Material" path="res://vsk_default/art/import/sky_celebration/main_room_mat.tres" id="2_wj3xi"]
 [ext_resource type="PackedScene" uid="uid://bhfhw3110expe" path="res://vsk_default/scenes/prefabs/basketball.tscn" id="4"]
 [ext_resource type="Script" path="res://addons/vsk_map/vsk_map_definition.gd" id="5"]
-[ext_resource type="AudioStream" uid="uid://ceefv7idopk7q" path="res://vsk_default/art/audio/sfx/basketball_drop.wav" id="5_qft24"]
 [ext_resource type="Environment" uid="uid://cp0t8jp2ellve" path="res://vsk_default/environments/default_env.tres" id="8_er26i"]
 [ext_resource type="Script" path="res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd" id="12"]
 
@@ -50,12 +49,8 @@ roughness = 0.0
 [node name="SkyCelebration" type="Node3D"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4, 0, 2.38419e-07)
 script = ExtResource("5")
-map_resources = []
-entity_instance_list = []
-entity_instance_properties_list = []
-vskeditor_preview_type = 0
 vskeditor_preview_camera_path = NodePath("Camera")
-vskeditor_pipeline_paths = [NodePath(""), NodePath("UroPipeline")]
+vskeditor_pipeline_paths = Array[NodePath]([NodePath(""), NodePath("UroPipeline")])
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.542277, 0.110847, -0.832856, -0.739241, 0.408171, 0.535648, 0.399323, 0.906151, -0.139399, 0, 2, 0)
@@ -81,16 +76,11 @@ shape = SubResource("ConcavePolygonShape3D_s4ylr")
 
 [node name="Beachball" parent="." instance=ExtResource("2")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.16515, -0.015, -4.32313)
-simulation_logic_node/hit_velocity = 0.5
 simulation_logic_node/physics_material = SubResource("PhysicsMaterial_ie8ae")
-simulation_logic_node/mass = 0.624
 
 [node name="Basketball" parent="." instance=ExtResource("4")]
 transform = Transform3D(0.959383, 0, 0.282107, 0, 1, 0, -0.282107, 0, 0.959383, 1.20525, 1.24595, -0.336987)
-simulation_logic_node/hit_sample = ExtResource("5_qft24")
-simulation_logic_node/hit_velocity = 0.01
 simulation_logic_node/physics_material = SubResource("1")
-simulation_logic_node/mass = 0.624
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 2.83625, 1.485, 20.5713)
@@ -100,7 +90,7 @@ current = true
 [node name="ReflectionProbe" type="ReflectionProbe" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.20525, 5, 4.13925)
 visible = false
-extents = Vector3(22.5, 6, 12)
+size = Vector3(45, 12, 24)
 origin_offset = Vector3(0, -3.5, 0)
 box_projection = true
 enable_shadows = true

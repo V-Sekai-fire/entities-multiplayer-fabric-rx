@@ -211,11 +211,6 @@ sky = SubResource("Sky_leyus")
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_hui8t")
-map_resources = []
-entity_instance_list = []
-entity_instance_properties_list = []
-vskeditor_preview_type = 0
-vskeditor_pipeline_paths = []
 
 [node name="MeshInstance" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)

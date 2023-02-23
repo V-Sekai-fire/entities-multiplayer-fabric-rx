@@ -134,10 +134,8 @@ func _physics_process(delta):
 
 [node name="Avatar" type="Node3D"]
 script = ExtResource("1_4s76f")
-vskeditor_preview_type = 0
-vskeditor_pipeline_paths = [NodePath("UroPipeline")]
+vskeditor_pipeline_paths = Array[NodePath]([NodePath("UroPipeline")])
 eye_transform_node_path = NodePath("Targets/EyePosition")
-database_id = ""
 
 [node name="UroPipeline" type="Node" parent="."]
 script = ExtResource("2_4nyka")
@@ -145,9 +143,7 @@ database_id = "3fdedd0f-3c2a-4217-88c3-ab7d31540c6b"
 
 [node name="x_bot" type="Node3D" parent="."]
 script = ExtResource("3_a6yxp")
-vrm_skeleton = NodePath("")
 vrm_animplayer = NodePath("anim")
-vrm_secondary = NodePath("")
 vrm_meta = SubResource("Resource_7bhbh")
 
 [node name="xbot" parent="x_bot" instance=ExtResource("5_8jlsy")]
