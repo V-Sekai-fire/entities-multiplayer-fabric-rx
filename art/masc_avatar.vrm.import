@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cel8a3nj1waxy"
-path="res://.godot/imported/xbot.vrm-38d0e355ebb75bb85743c3a90680e762.scn"
+uid="uid://dmaafrcqx6ega"
+path="res://.godot/imported/masc_avatar.vrm-074ea5bb63efcd74a0c82d68ecb82f96.scn"
 
 [deps]
 
-source_file="res://vsk_default/art/xbot.vrm"
-dest_files=["res://.godot/imported/xbot.vrm-38d0e355ebb75bb85743c3a90680e762.scn"]
+source_file="res://vsk_default/art/masc_avatar.vrm"
+dest_files=["res://.godot/imported/masc_avatar.vrm-074ea5bb63efcd74a0c82d68ecb82f96.scn"]
 
 [params]
 
