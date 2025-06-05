@@ -4,12 +4,11 @@
 # SPDX-License-Identifier: MIT
 
 @tool
-extends "res://addons/vsk_importer_exporter/vsk_validator.gd"
-
-const map_validator_const = preload("res://addons/vsk_importer_exporter/vsk_map_validator.gd")
+extends VSKValidator
+class_name VSKMapValidator
 
 # FIXME: dictionary cannot be const????
-var valid_node_whitelist = {
+var valid_node_allow_list = {
 	"AnimatedSprite3D": AnimatedSprite3D,
 	"AnimationPlayer": AnimationPlayer,
 	"AnimationTree": AnimationTree,
@@ -71,7 +70,7 @@ var valid_node_whitelist = {
 	"SubViewport": SubViewport,
 }
 
-var valid_canvas_node_whitelist = {
+var valid_canvas_node_allow_list = {
 	"Node": Node,
 	"HBoxContainer": HBoxContainer,
 	"VBoxContainer": VBoxContainer,
@@ -87,7 +86,7 @@ var valid_canvas_node_whitelist = {
 }
 
 # FIXME: dictionary cannot be const????
-var valid_resource_whitelist = {
+var valid_resource_allow_list = {
 	"AnimatedTexture": AnimatedTexture,
 	"Animation": Animation,
 	"AnimationLibrary": AnimationLibrary,
@@ -174,7 +173,7 @@ var valid_resource_whitelist = {
 	"World2D": World2D,
 }
 
-var valid_external_path_whitelist = {
+var valid_external_path_allow_list = {
 	"res://addons/entity_manager/entity.gd": true,
 	"res://addons/vsk_entities/vsk_interactable_prop.tscn": true,
 	"res://addons/network_manager/network_spawn.gd": true,
@@ -206,9 +205,9 @@ var valid_external_path_whitelist = {
 ################
 
 var entity_script: Script = load("res://addons/entity_manager/entity.gd")
-const valid_entity_whitelist = ["res://addons/vsk_entities/vsk_interactable_prop.tscn"]
+const valid_entity_allow_list = ["res://addons/vsk_entities/vsk_interactable_prop.tscn"]
 
-const valid_resource_script_whitelist = []
+const valid_resource_script_allow_list = []
 
 
 static func check_if_script_type_is_valid(p_script: Script, p_node_class: String) -> bool:
@@ -273,9 +272,9 @@ func is_script_valid_for_root(p_script: Script, p_node_class: String):
 
 	var map_definition = load("res://addons/vsk_map/vsk_map_definition.gd")
 	var map_definition_runtime = load("res://addons/vsk_map/vsk_map_definition_runtime.gd")
-	var valid_root_script_whitelist = [map_definition, map_definition_runtime]
-	if valid_root_script_whitelist.find(p_script) != -1:
-		return map_validator_const.check_if_script_type_is_valid(p_script, p_node_class)
+	var valid_root_script_allow_list = [map_definition, map_definition_runtime]
+	if valid_root_script_allow_list.find(p_script) != -1:
+		return check_if_script_type_is_valid(p_script, p_node_class)
 
 	push_warning(
 		(
@@ -310,7 +309,7 @@ func is_script_valid_for_children(p_script: Script, p_node_class: String):
 	var network_physics = load("res://addons/network_manager/network_physics.gd")
 	var smoothing = load("res://addons/smoothing/smoothing.gd")
 
-	var valid_children_script_whitelist = [
+	var valid_children_script_allow_list = [
 		network_spawn_const,
 		vsk_uro_pipeline,
 		entity_identity,
@@ -324,8 +323,8 @@ func is_script_valid_for_children(p_script: Script, p_node_class: String):
 		network_physics,
 		smoothing,
 	]
-	if valid_children_script_whitelist.find(p_script) != -1:
-		return map_validator_const.check_if_script_type_is_valid(p_script, p_node_class)
+	if valid_children_script_allow_list.find(p_script) != -1:
+		return check_if_script_type_is_valid(p_script, p_node_class)
 
 	push_warning(
 		(
@@ -344,7 +343,7 @@ func is_script_valid_for_resource(p_script: Script):
 	if p_script == null:
 		return true
 
-	if valid_resource_script_whitelist.find(p_script) != -1:
+	if valid_resource_script_allow_list.find(p_script) != -1:
 		return true
 	else:
 		push_warning(
@@ -358,7 +357,7 @@ func is_script_valid_for_resource(p_script: Script):
 
 func is_node_type_valid(p_node: Node, p_child_of_canvas: bool) -> bool:
 	if is_node_type_string_valid(p_node.get_class(), p_child_of_canvas):
-		if !map_validator_const.is_editor_only(p_node):
+		if !is_editor_only(p_node):
 			return true
 
 	push_warning(
@@ -375,9 +374,10 @@ func is_node_type_valid(p_node: Node, p_child_of_canvas: bool) -> bool:
 
 func is_node_type_string_valid(p_class_str: String, p_child_of_canvas: bool) -> bool:
 	if p_child_of_canvas:
-		return valid_canvas_node_whitelist.has(p_class_str)
+		return valid_canvas_node_allow_list.has(p_class_str)
 	else:
-		return valid_node_whitelist.has(p_class_str)
+		if valid_node_allow_list.has(p_class_str):
+			return true
 
 	push_warning(
 		(
@@ -392,7 +392,7 @@ func is_node_type_string_valid(p_class_str: String, p_child_of_canvas: bool) -> 
 
 
 func is_resource_type_valid(p_resource: Resource) -> bool:
-	if valid_resource_whitelist.has(p_resource.get_class()):
+	if valid_resource_allow_list.has(p_resource.get_class()):
 		return true
 
 	push_warning("Validator: Unknown resource type " + str(p_resource.get_class()))
@@ -400,7 +400,7 @@ func is_resource_type_valid(p_resource: Resource) -> bool:
 
 
 func is_path_an_entity(p_packed_scene_path: String) -> bool:
-	if valid_entity_whitelist.find(p_packed_scene_path) != -1:
+	if valid_entity_allow_list.find(p_packed_scene_path) != -1:
 		return true
 	else:
 		return false
@@ -428,21 +428,21 @@ func is_valid_entity_script(p_script: Script) -> bool:
 func validate_value_track(p_subnames: String, p_node_class: String):
 	match p_node_class:
 		"MeshInstance3D":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return check_basic_node_3d_value_targets(p_subnames)
 		"Node3D":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return check_basic_node_3d_value_targets(p_subnames)
 		"DirectionalLight":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return check_basic_node_3d_value_targets(p_subnames)
 		"OmniLight":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return check_basic_node_3d_value_targets(p_subnames)
 		"SpotLight":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return check_basic_node_3d_value_targets(p_subnames)
 		"Camera3D":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return check_basic_node_3d_value_targets(p_subnames)
 		"GPUParticles3D":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return check_basic_node_3d_value_targets(p_subnames)
 		"CPUParticles":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return check_basic_node_3d_value_targets(p_subnames)
 		_:
 			return false
 

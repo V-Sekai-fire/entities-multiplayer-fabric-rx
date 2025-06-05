@@ -4,3 +4,4 @@
 # SPDX-License-Identifier: MIT
 
 extends Node
+class_name VSKPipeline

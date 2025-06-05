@@ -5,6 +5,7 @@
 
 @tool
 extends RefCounted
+class_name VSKValidator
 
 
 static func check_basic_node_3d_value_targets(p_subnames: String) -> bool:
@@ -91,7 +92,7 @@ func validate_value_track(_subnames: String, _node_class: String):
 	return false
 
 
-func sanitise_node(p_node: Node) -> Node:
+func clean_node(p_node: Node) -> Node:
 	var node_name: String = p_node.get_name()
 	var new_node: Node = null
 	if p_node is Node3D:

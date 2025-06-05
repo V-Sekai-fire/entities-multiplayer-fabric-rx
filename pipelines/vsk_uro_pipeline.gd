@@ -3,7 +3,8 @@
 # vsk_uro_pipeline.gd
 # SPDX-License-Identifier: MIT
 
-extends "res://addons/vsk_importer_exporter/vsk_pipeline.gd"  # vsk_pipeline.gd
+extends VSKPipeline  # vsk_pipeline.gd
+class_name VSKUroPipeline
 
 @export var database_id: String = ""
 
