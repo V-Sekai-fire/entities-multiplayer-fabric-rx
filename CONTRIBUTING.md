@@ -11,7 +11,7 @@ and the addon library from `multiplayer-fabric-humanoid-project`.
 - **Addons are pinned, not submodules.** Addon versions are locked by
   copying the relevant commit into `addons/`.  To update an addon,
   copy the new version over, run the project to verify it still loads,
-  and commit the change with `addon(<name>): update to <commit-sha>`.
+  and commit as `Update <name> addon to <commit-sha>`.
 - **Editor-first testing.** Changes must be validated by opening the
   project in the matching Godot editor build and running the affected
   scene.  Headless CI runs `godot --headless --quit` to catch import
@@ -35,8 +35,8 @@ and the addon library from `multiplayer-fabric-humanoid-project`.
    $GODOT_EDITOR --path .
    ```
 4. Make changes, run affected scenes.
-5. Commit as `scene(<name>): <description>` or
-   `addon(<name>): <description>`.
+5. Commit with a sentence-case message describing what changed,
+   e.g. `Add avatar spawn point to main lobby scene`.
 
 ## Design notes
 
