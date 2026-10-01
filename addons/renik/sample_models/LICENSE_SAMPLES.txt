@@ -6,3 +6,10 @@ https://github.com/SirRichard94/low-poly-godette
 Licensed under Creative Commons Attribution 3.0 Unported (CC-BY):
 https://github.com/SirRichard94/low-poly-godette/blob/4a4f910ccd74be8c46a440135de9a98bead9feb1/License
 VRM adaptation Copyright (C) 2021 Lyuma and licensed under the above terms (CC-BY)
+
+VRM1_Constraint_Twist_Sample.vrm
+VRM 1.0 constraint twist sample, Copyright (c) 2019-2026 pixiv Inc.
+Licensed under the MIT License, as carried by
+https://github.com/chibifire-stages/SK_VRM1_Constraint_Twist_Sample
+Taken from V-Sekai-fire/interactor-test-godot-vrm-motion-checker (godot47),
+fire_motion_check/art/VRM1_Constraint_Twist_Sample/VRM1_Constraint_Twist_Sample.vrm
