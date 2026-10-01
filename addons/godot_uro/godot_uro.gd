@@ -126,19 +126,14 @@ func _init():
 	# the file gets stolen.
 	var os_unique_id: String = OS.get_unique_id()
 	
-	if Engine.is_editor_hint():
-		if cfg.load_encrypted_pass(get_uro_editor_config_path(), os_unique_id) != OK:
-			push_error("Could not load editor token!")
-	else:
-		if cfg.load_encrypted_pass(get_uro_game_config_path(), os_unique_id) != OK:
-			push_error("Could not load game token!")
-			
-	if Engine.is_editor_hint():
-		if cfg.save_encrypted_pass(get_uro_editor_config_path(), os_unique_id) != OK:
-			push_error("Could not save editor token!")
-	else:
-		if cfg.save_encrypted_pass(get_uro_game_config_path(), os_unique_id) != OK:
-			push_error("Could not save game token!")
+	var config_path: String = get_uro_editor_config_path() if Engine.is_editor_hint() else get_uro_game_config_path()
+	var token_kind: String = "editor" if Engine.is_editor_hint() else "game"
+	# A first run has no token file yet; the first login writes it.
+	if FileAccess.file_exists(config_path):
+		if cfg.load_encrypted_pass(config_path, os_unique_id) != OK:
+			push_error("Could not load %s token!" % token_kind)
+		if cfg.save_encrypted_pass(config_path, os_unique_id) != OK:
+			push_error("Could not save %s token!" % token_kind)
 
 	if godot_uro_api == null:
 		godot_uro_api = GodotUroAPI.new(self)
