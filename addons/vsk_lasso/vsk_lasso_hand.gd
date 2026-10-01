@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # The lasso on one controller, on lasso.elf: the trigger arms a pointing cone that snaps to the best
-# VSKLassoTarget, this hand's stick hops the snap to a neighbour, and grab flicks it to the hand.
+# target in the lasso group (a VSKLassoTarget or a canvas plane's control anchor), this hand's stick hops the
+# snap to a neighbour, and grab acts on it: a target flies to the hand, a control is pressed.
 extends Node3D
 class_name VSKLassoHand
 
@@ -16,8 +17,8 @@ const ELF := preload("res://addons/vsk_lasso/lasso.elf")
 @export var haptic_amplitude: float = 1.0
 @export var haptic_seconds: float = 0.01
 
-var current: VSKLassoTarget = null
-var secondary: VSKLassoTarget = null
+var current = null
+var secondary = null
 var props: VSKLassoProps = null
 var _sandbox: Object = null
 var _redirect_ready: bool = true
@@ -46,7 +47,7 @@ static func transform12(p_transform: Transform3D) -> PackedFloat64Array:
 
 static func pack(p_targets: Array, p_locked: Object) -> PackedFloat32Array:
 	var out := PackedFloat32Array()
-	for t: VSKLassoTarget in p_targets:
+	for t in p_targets:
 		var p: Vector3 = t.global_position
 		var shown: float = 1.0 if t.snapping_enabled and t.is_visible_in_tree() else 0.0
 		out.append_array([p.x, p.y, p.z, t.size, t.snapping_power, shown, 1.0 if t == p_locked else 0.0])
@@ -64,14 +65,14 @@ func snap(p_source: Transform3D, p_targets: Array, p_strength: float, p_lock: bo
 
 
 ## The target the stick moves the snap to, seen from `p_view`; the current one when none qualifies.
-func redirect(p_view: Transform3D, p_targets: Array, p_stick: Vector2) -> VSKLassoTarget:
+func redirect(p_view: Transform3D, p_targets: Array, p_stick: Vector2):
 	var i: int = _sandbox.vmcall("lasso_redirect", p_targets.find(current), transform12(p_view),
 			pack(p_targets, null), p_stick.x, p_stick.y)
-	var hop: VSKLassoTarget = _at(p_targets, i)
+	var hop = _at(p_targets, i)
 	return hop if hop else current
 
 
-func set_snap(p_first: VSKLassoTarget, p_second: VSKLassoTarget) -> void:
+func set_snap(p_first, p_second) -> void:
 	if p_first != current:
 		if current:
 			current.stop_hover()
@@ -113,5 +114,5 @@ func _process(_delta: float) -> void:
 	props.show_snap(controller.global_transform, current, secondary)
 
 
-static func _at(p_targets: Array, p_index: int) -> VSKLassoTarget:
+static func _at(p_targets: Array, p_index: int):
 	return p_targets[p_index] if p_index >= 0 and p_index < p_targets.size() else null

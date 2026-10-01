@@ -27,7 +27,7 @@ func _ready() -> void:
 	laser.sides = 6
 
 
-func show_snap(p_source: Transform3D, p_first: VSKLassoTarget, p_second: VSKLassoTarget) -> void:
+func show_snap(p_source: Transform3D, p_first, p_second) -> void:
 	_ring(primary, p_source.origin, p_first)
 	_ring(runner_up, p_source.origin, p_second)
 	laser.visible = p_first != null
@@ -38,7 +38,7 @@ func show_snap(p_source: Transform3D, p_first: VSKLassoTarget, p_second: VSKLass
 		laser.global_transform = _along(from, to)
 
 
-func _ring(p_ring: CSGTorus3D, p_from: Vector3, p_target: VSKLassoTarget) -> void:
+func _ring(p_ring: CSGTorus3D, p_from: Vector3, p_target) -> void:
 	p_ring.visible = p_target != null
 	if p_target:
 		p_ring.inner_radius = p_target.size * 0.9
