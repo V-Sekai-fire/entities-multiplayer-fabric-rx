@@ -63,20 +63,20 @@ extends Resource
 @export_range(0,1,0.001) var contact_point_ease_scalar: float = 0.4
 @export_range(0,1,0.001) var scaling_ease: float = 0.9
 
-func _init(p_speed_min_scalar: float, p_speed_max_scalar: float,
-		p_ground_time_min: float, p_lift_time_base: float,
-		p_lift_time_scalar: float, p_apex_in_time_base: float,
-		p_apex_in_time_scalar: float, p_apex_out_time_base: float,
-		p_apex_out_time_scalar: float, p_drop_time_base: float,
-		p_drop_time_scalar: float, p_tip_toe_distance_scalar: float,
-		p_tip_toe_speed_scalar: float, p_tip_toe_angle_max: float,
-		p_lift_vertical: float, p_lift_vertical_scalar: float,
-		p_lift_horizontal_scalar: float, p_lift_angle: float,
-		p_apex_vertical: float, p_apex_vertical_scalar: float, p_apex_angle: float,
-		p_drop_vertical: float, p_drop_vertical_scalar: float,
-		p_drop_horizontal_scalar: float, p_drop_angle: float,
-		p_contact_point_ease: float, p_contact_point_ease_scalar: float,
-		p_scaling_ease: float):
+func _init(p_speed_min_scalar: float = 1, p_speed_max_scalar: float = 1,
+		p_ground_time_min: float = 20, p_lift_time_base: float = 10,
+		p_lift_time_scalar: float = 5, p_apex_in_time_base: float = 10,
+		p_apex_in_time_scalar: float = 5, p_apex_out_time_base: float = 10,
+		p_apex_out_time_scalar: float = 5, p_drop_time_base: float = 10,
+		p_drop_time_scalar: float = 5, p_tip_toe_distance_scalar: float = PI / 8,
+		p_tip_toe_speed_scalar: float = PI / 4, p_tip_toe_angle_max: float = PI / 3,
+		p_lift_vertical: float = 0.025, p_lift_vertical_scalar: float = 0.25,
+		p_lift_horizontal_scalar: float = 0.5, p_lift_angle: float = 0,
+		p_apex_vertical: float = 0.01, p_apex_vertical_scalar: float = 0.1, p_apex_angle: float = 0,
+		p_drop_vertical: float = 0.0, p_drop_vertical_scalar: float = 0.15,
+		p_drop_horizontal_scalar: float = 0.25, p_drop_angle: float = 0,
+		p_contact_point_ease: float = 0.1, p_contact_point_ease_scalar: float = 0.4,
+		p_scaling_ease: float = 0.9):
 	speed_scalar_min = p_speed_min_scalar
 	speed_scalar_max = p_speed_max_scalar
 	ground_time = p_ground_time_min
