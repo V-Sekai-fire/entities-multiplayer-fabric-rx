@@ -1,13 +1,13 @@
 [gd_scene load_steps=27 format=3 uid="uid://08a3p8axfj1n"]
 
 [ext_resource type="PackedScene" uid="uid://bli0c8vavasqu" path="res://addons/renik/sample_models/VRM1_Constraint_Twist_Sample.vrm" id="1_qnhp5"]
-[ext_resource type="Script" uid="uid://dp4omwn1vbm1f" path="res://addons/vrm/vrm_spring_bone.gd" id="2_i74im"]
-[ext_resource type="Script" uid="uid://cbl72623cko0k" path="res://addons/renik/renik_placement.gd" id="3_slfov"]
-[ext_resource type="Script" uid="uid://3wvx24u740ys" path="res://addons/vrm/vrm_collider_group.gd" id="3_ytbvn"]
-[ext_resource type="Script" uid="uid://b1na47rj7w5uh" path="res://addons/vrm/vrm_collider.gd" id="4_5g6m6"]
+[ext_resource type="Script" uid="uid://bto44goschblj" path="res://addons/vrm/vrm_spring_bone.gd" id="2_i74im"]
+[ext_resource type="Script" uid="uid://cd1tfr1w8y75e" path="res://addons/renik/renik_placement.gd" id="3_slfov"]
+[ext_resource type="Script" uid="uid://dvnpt0a3u34l1" path="res://addons/vrm/vrm_collider_group.gd" id="3_ytbvn"]
+[ext_resource type="Script" uid="uid://cucpi5tfay7wm" path="res://addons/vrm/vrm_collider.gd" id="4_5g6m6"]
 [ext_resource type="Script" uid="uid://cqeoidnhsn75e" path="res://addons/renik/renik_spine.gd" id="5_mu5of"]
 [ext_resource type="Script" uid="uid://chslcw2ar6ueo" path="res://addons/renik/renik_limb.gd" id="6_0yan8"]
-[ext_resource type="Script" uid="uid://cf1piomqcwoj5" path="res://addons/renik/renik_placement_gait.gd" id="8_qtuga"]
+[ext_resource type="Script" uid="uid://ch5v21lx7m462" path="res://addons/renik/renik_placement_gait.gd" id="8_qtuga"]
 
 [sub_resource type="Resource" id="Resource_aydfj"]
 resource_name = "Head"
