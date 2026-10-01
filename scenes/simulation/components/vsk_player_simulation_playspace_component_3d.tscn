@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://crjgg4fi0c0ad"]
+[gd_scene load_steps=16 format=3 uid="uid://crjgg4fi0c0ad"]
 
 [ext_resource type="PackedScene" uid="uid://riyhjc3pjwu7" path="res://addons/sar_game_framework/3d/simulation/sar_player_simulation_fps_tps_xr_hybrid_playspace_component_3d.tscn" id="1_jvu1v"]
 [ext_resource type="Script" uid="uid://bps4jvd15dpw6" path="res://addons/vsk_game_framework/scripts/simulation/vsk_player_simulation_playspace_component_3d.gd" id="2_00l76"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://c4ah4tflvuqjr" path="res://addons/vsk_game_framework/scripts/simulation/vsk_playspace_ik_driver_component_3d.gd" id="9_00l76"]
 [ext_resource type="Script" uid="uid://dygwgrqe5vmln" path="res://addons/xr_rig_calibrator/calibrated_tracker.gd" id="11_mdjmv"]
 [ext_resource type="Script" uid="uid://dqwdiojv5c1ah" path="res://addons/xr_rig_calibrator/rig_to_rig_calibrator.gd" id="14_k221o"]
+[ext_resource type="PackedScene" path="res://addons/vsk_lasso/vsk_lasso_hand.tscn" id="15_lasso"]
 
 [sub_resource type="GDScript" id="GDScript_jvu1v"]
 script/source = "extends Node
@@ -73,8 +74,8 @@ editor_description = "This node is responsible for handling all camera rotation 
 
 [node name="XROrigin3D" parent="CameraBase/CameraPivot/CameraOffset" index="0"]
 current = true
-left_hand_default_child_scenes = Array[PackedScene]([ExtResource("3_rwdra"), ExtResource("4_eow00"), ExtResource("5_mdjmv")])
-right_hand_default_child_scenes = Array[PackedScene]([ExtResource("6_5e044"), ExtResource("4_eow00"), ExtResource("5_mdjmv")])
+left_hand_default_child_scenes = Array[PackedScene]([ExtResource("3_rwdra"), ExtResource("4_eow00"), ExtResource("5_mdjmv"), ExtResource("15_lasso")])
+right_hand_default_child_scenes = Array[PackedScene]([ExtResource("6_5e044"), ExtResource("4_eow00"), ExtResource("5_mdjmv"), ExtResource("15_lasso")])
 
 [node name="XRCamera3D" parent="CameraBase/CameraPivot/CameraOffset/XROrigin3D" index="0"]
 cull_mask = 3
