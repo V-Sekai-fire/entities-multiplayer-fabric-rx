@@ -74,8 +74,9 @@ func _get_player_spawn_parent() -> Node:
 	return get_tree().current_scene
 	
 func _update_player_spawn_path() -> void:
-	if _player_spawner_node:
-		_player_spawner_node.spawn_path = _player_spawner_node.get_path_to(_get_player_spawn_parent())
+	var spawn_parent: Node = _get_player_spawn_parent()
+	if _player_spawner_node and spawn_parent:
+		_player_spawner_node.spawn_path = _player_spawner_node.get_path_to(spawn_parent)
 	
 func _spawn_player_soul(p_id: int) -> SarSoul:
 	var spawn_parent: Node = _get_player_spawn_parent()
