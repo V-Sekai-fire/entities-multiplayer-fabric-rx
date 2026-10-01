@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/vsk_lasso/vsk_lasso_hand.gd" id="1_lasso"]
+
+[node name="VSKLassoHand" type="Node3D"]
+script = ExtResource("1_lasso")
