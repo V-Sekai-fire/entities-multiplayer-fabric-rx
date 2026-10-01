@@ -5,7 +5,7 @@
 extends RigidBody3D
 class_name VSKLassoTarget
 
-const GROUP := &"vsk_lasso_targets"
+const GROUP := &"lasso_targets"
 
 signal snap_hover
 signal snap_hover_stop
