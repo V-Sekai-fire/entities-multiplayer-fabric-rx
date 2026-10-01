@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 K. S. Ernest (iFire) Lee
 extends SceneTree
 ## Loads every script, scene and resource and fails on any error, naming the file that printed it.
 ## With `-- --control`, a planted parse error must be caught and named instead.
