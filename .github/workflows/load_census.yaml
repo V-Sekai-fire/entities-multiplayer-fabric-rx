@@ -1,0 +1,31 @@
+name: load census
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  merge_group:
+
+jobs:
+  load-census:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GODOT_RELEASE: v20260930-double.1
+      GODOT_BIN: godot.linuxbsd.editor.double.x86_64
+    steps:
+      - uses: actions/checkout@v7
+      - name: The double-precision editor the rx line runs on
+        working-directory: ${{ runner.temp }}
+        run: |
+          base="https://github.com/V-Sekai-fire/service-godot-build/releases/download/$GODOT_RELEASE"
+          curl -sSfL -O "$base/$GODOT_BIN" -O "$base/SHA256SUMS"
+          grep "  $GODOT_BIN\$" SHA256SUMS | sha256sum -c -
+          chmod +x "$GODOT_BIN"
+          echo "GODOT=$RUNNER_TEMP/$GODOT_BIN" >> "$GITHUB_ENV"
+      - name: Import
+        run: '"$GODOT" --headless --path . --import'
+      - name: Every script, scene and resource loads without an error
+        run: '"$GODOT" --headless --path . --script res://tests/load_census/load_census.gd'
+      - name: Control, a planted parse error is caught and named
+        run: '"$GODOT" --headless --path . --script res://tests/load_census/load_census.gd -- --control'
