@@ -1,0 +1,31 @@
+name: User flow
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  user_flow:
+    name: user flow
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: tests/user_flow
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Prove the flow's structure
+        run: lake build
+
+      - name: Certify every path navigable, and every scene it cites present
+        run: lake exe user_flow check ../..
+
+      - name: The generated GDScript matches the Lean source
+        run: |
+          lake exe user_flow gdscript > /tmp/user_flow.gd
+          diff -u ../../addons/vsk_ui/flow/user_flow.gd /tmp/user_flow.gd
