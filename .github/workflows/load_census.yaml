@@ -17,6 +17,8 @@ jobs:
     env:
       GODOT_RELEASE: v20260930-double.1
       GODOT_BIN: godot.linuxbsd.editor.double.x86_64
+      ADDON_RELEASE: v20261002-addon.1
+      ADDON_SO: libgodot_riscv.linux.template_release.double.x86_64.so
     steps:
       - uses: actions/checkout@v7
       - name: The double-precision editor the rx line runs on
@@ -27,6 +29,15 @@ jobs:
           grep "  $GODOT_BIN\$" SHA256SUMS | sha256sum -c -
           chmod +x "$GODOT_BIN"
           echo "GODOT=$RUNNER_TEMP/$GODOT_BIN" >> "$GITHUB_ENV"
+      - name: The double godot-sandbox extension, so lasso.elf has a loader
+        run: |
+          base="https://github.com/V-Sekai-fire/service-godot-build/releases/download/$ADDON_RELEASE"
+          mkdir -p addons/godot_sandbox/bin && cd addons/godot_sandbox/bin
+          curl -sSfL -O "$base/$ADDON_SO" -o "$RUNNER_TEMP/addon.sums" "$base/SHA256SUMS"
+          grep "  $ADDON_SO\$" "$RUNNER_TEMP/addon.sums" | sha256sum -c -
+          printf '%s\n' '[configuration]' 'entry_symbol = "riscv_library_init"' 'compatibility_minimum = "4.4"' \
+            '[libraries]' "linux.debug.double.x86_64 = \"./$ADDON_SO\"" "linux.release.double.x86_64 = \"./$ADDON_SO\"" \
+            > godot-riscv.gdextension
       - name: Import
         run: '"$GODOT" --headless --path . --import'
       - name: Every script, scene and resource loads without an error
