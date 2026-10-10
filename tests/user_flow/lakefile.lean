@@ -4,7 +4,7 @@ open Lake DSL
 package userflow
 
 require «plausible-witness-dag» from git
-  "https://github.com/V-Sekai-fire/plausible-witness-dag" @ "23ca437da267d835eab00e7ad9e483c6e000207b"
+  "https://github.com/V-Sekai-fire/plausible-witness-dag" @ "f18818941e8914b110f85ec330889a4785c01bf1"
 
 @[default_target] lean_lib UserFlow where
   roots := #[`UserFlow, `Navigable]
