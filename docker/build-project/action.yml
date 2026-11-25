@@ -1,5 +1,5 @@
 name: 'build-project'
-description: 'Build project with latest Godot editor from V-Sekai/world-godot'
+description: 'Build project with stock Godot 4.8-beta5 and its export templates'
 inputs:
   repo:
     description: 'Github project repository id "owner/myrepo"'
