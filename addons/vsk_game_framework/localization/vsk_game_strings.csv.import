@@ -15,3 +15,5 @@ dest_files=["res://addons/vsk_game_framework/localization/vsk_game_strings.en.tr
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true
