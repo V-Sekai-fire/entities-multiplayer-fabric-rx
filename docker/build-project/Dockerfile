@@ -13,10 +13,13 @@ ENV HOMEDIR '/root'
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
 ENV BUILD_PLATFORMS 'Linux Windows Mac Android QuestAndroid PicoAndroid Web Linux_arm64'
-ENV GODOT_REPO 'V-Sekai/world-godot'
-ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
-ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
-ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
+ENV GODOT_VERSION '4.8-beta5'
+ENV GODOT_BASE 'https://github.com/godotengine/godot-builds/releases/download/4.8-beta5'
+ENV GODOT_ZIP 'Godot_v4.8-beta5_linux.x86_64.zip'
+ENV GODOT_TPZ 'Godot_v4.8-beta5_export_templates.tpz'
+ENV GODOT_EDITOR 'Godot_v4.8-beta5_linux.x86_64'
+ENV SANDBOX_ZIP_URL 'https://github.com/libriscv/godot-sandbox/releases/download/v0.60/godot-sandbox.zip'
+ENV SANDBOX_ZIP_SHA256 '6b7f4c6a74d283352036c2cf6baf4672059ab17d4eaf00386a0357eda73ce865'
 ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates"
 ENV ANDROID_SDK_ROOT "$HOMEDIR/android_sdk"
 ENV ANDROID_HOME "$HOMEDIR/android_sdk"
@@ -37,58 +40,17 @@ RUN mkdir -p "./src"
 COPY ./editor_settings-4.tres ./src/
 COPY ./export_presets.cfg ./src/
 
-RUN TPZ_URLS=$( \
-        curl -sS -L \
-        -H "Accept: application/vnd.github+json" \
-        "https://api.github.com/repos/${GODOT_REPO}/releases" \
-        | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' | tr -d "\'" \
-    ) \
-        && echo "${TPZ_URLS}" | while read -r URL; do \
-            echo "Downloading ${URL}"; \
-            curl -OL --url "${URL}" \
-            && echo "Downloaded ${URL} archive."; \
-        done && echo "Unzipping..." \
-            && cat ${GODOT_TPZ}.* > "${GODOT_TPZ%.*}-merge.zip" && rm ${GODOT_TPZ}.* \
-            && unzip "${GODOT_TPZ%.*}-merge.zip" && rm "${GODOT_TPZ%.*}-merge.zip" \
-            && mv ${GODOT_TPZ%.*}/${GODOT_TPZ%.*}.tpz templates.zip && rmdir ${GODOT_TPZ%.*} \
-            && unzip templates.zip && rm templates.zip
+# Stock Godot and its export templates, checked against the release's SHA512-SUMS.txt
+RUN curl -sS -fL -O "${GODOT_BASE}/SHA512-SUMS.txt" -O "${GODOT_BASE}/${GODOT_ZIP}" -O "${GODOT_BASE}/${GODOT_TPZ}" \
+    && grep -E " (${GODOT_ZIP}|${GODOT_TPZ})\$" SHA512-SUMS.txt | sha512sum -c - \
+    && unzip -q "${GODOT_ZIP}" && chmod +x "${GODOT_EDITOR}" \
+    && unzip -q "${GODOT_TPZ}" && rm "${GODOT_ZIP}" "${GODOT_TPZ}" \
+    && "./${GODOT_EDITOR}" --headless --version | awk -F. '{print $NF}' > godot_editor_sha.txt
 
-# Get latest Godot editor metadata
-RUN curl -sS \
-    -H "Accept: application/vnd.github+json" \
-    "https://api.github.com/repos/${GODOT_REPO}/releases" \
-    | jq -r '.[0]' > godot_editor_json.txt
-
-# Get editor commit SHA
-RUN GODOT_TAG=$( cat 'godot_editor_json.txt' | jq -r '.tag_name') \
-    && read obj_type obj_sha < <( echo $( \
-        curl -sS \
-        -H "Accept: application/vnd.github+json" \
-        "https://api.github.com/repos/${GODOT_REPO}/git/ref/tags/${GODOT_TAG}" \
-        | jq -r '.object.type, .object.sha' ) ) \
-    && if [ $obj_type == "commit" ]; then \
-           GODOT_SHA=${obj_sha}; \
-       else \
-           GODOT_SHA=$( curl -sS \
-           -H "Accept: application/vnd.github+json" \
-           "https://api.github.com/repos/${GODOT_REPO}/git/tags/${obj_sha}" \
-           | jq '.object.sha' ); \
-       fi \
-    && echo "Godot Editor SHA: ${GODOT_SHA}" \
-    && echo "${GODOT_SHA}" > godot_editor_sha.txt
-
-# Get editor
-RUN FILE_URL=$( \
-        cat 'godot_editor_json.txt' \
-        | jq -r '.assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
-    ) \
-        && echo "Downloading ${FILE_URL}" \
-        && curl -OL --url ${FILE_URL} \
-        && echo "Downloaded ${GODOT_ZIP%.*} archive. Unzipping..." \
-        && unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} ${HOMEDIR}/godot
-
-RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
-        && chmod +x ${GODOT_EDITOR}
+# The godot-sandbox addon's binaries, pinned, which the project's guests need
+RUN curl -sS -fL -o sandbox.zip "${SANDBOX_ZIP_URL}" \
+    && echo "${SANDBOX_ZIP_SHA256}  sandbox.zip" | sha256sum -c - \
+    && unzip -q sandbox.zip 'addons/godot_sandbox/bin/*' -d ./src && rm sandbox.zip
 
 RUN mkdir -p ./src/${BIN} \
     && cp templates/version.txt ${HOMEDIR} \
